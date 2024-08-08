@@ -18,7 +18,7 @@ const Header = () => {
 
         {/* only show dropdown in mobile and toggle value true   */}
         {show && <nav className='mt-1 hidden sm:flex'>
-          <NavLink className='underline underline-offset-4'>AddBlog</NavLink>
+          <NavLink to="/login" className='underline underline-offset-4'>Login</NavLink>
         </nav>}
 
 
@@ -37,7 +37,7 @@ const Header = () => {
 
 
       <nav className='sm:hidden'>
-        <NavLink to='/add-blog'>AddBlog</NavLink>
+        <NavLink to="/Login">Login</NavLink>
       </nav>
 
 

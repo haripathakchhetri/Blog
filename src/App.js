@@ -1,24 +1,14 @@
 import React from 'react'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import RootLayout from './ui/RootLayout';
-import Blogs from './features/blog/Blogs';
-import AddForm from './features/blog/AddForm';
-import EditForm from './features/blog/EditForm';
-import SingleBlog from './features/blog/SingleBlog';
+import Main from './features/dashboard/Main';
+import Login from './features/auth/Login';
+import Register from './features/auth/Register';
+
 
 const App = () => {
 
-  // const g = [11, 22, 44, 55, 77];
-  // g.splice(1, 1);
-  // console.log(g);
 
-  // const per = [11, 22, 44, 55];
-  // console.log([...per, 99]);
-  // const p = {
-  //   name: 'ram'
-  // };
-
-  // console.log({ ...p, age: 90 });
 
   const router = createBrowserRouter([
     {
@@ -27,20 +17,19 @@ const App = () => {
       children: [
         {
           index: true,
-          element: <Blogs />
+          element: <Main />
+
+        },
+
+        {
+          path: "login",
+          element: <Login />
         },
         {
-          path: 'add-blog',
-          element: <AddForm />
-        },
-        {
-          path: 'edit-blog/:id',
-          element: <EditForm />
-        },
-        {
-          path: 'single-blog/:id',
-          element: <SingleBlog />
+          path: "register",
+          element: <Register />
         }
+
       ]
     }
   ]);
