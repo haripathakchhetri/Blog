@@ -22,11 +22,14 @@ import NoLoginRoute from './ui/NoLoginRoute';
 const App = () => {
 
 
+
+
   // const { isError, isFetching, isLoading, data, error } = useGetAllProductsQuery();
   // console.log(data)
 
 
   const router = createBrowserRouter([
+    //routes
     {
       path: '/',
       element: <RootLayout />,
