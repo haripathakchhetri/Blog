@@ -1,16 +1,49 @@
 import {
   Card,
   Input,
-  Checkbox,
   Button,
   Typography,
 } from "@material-tailwind/react";
 import { useNavigate } from "react-router";
+import * as Yup from "yup"
+import { useFormik } from "formik";
+import { toast } from "react-toastify";
+import { useRegisterUserMutation } from "../product/userApi";
 
 
 const Register = () => {
 
+  const [SignupUser, { isLoading }] = useRegisterUserMutation();
+
   const nav = useNavigate();
+
+  const registerSchema = Yup.object({
+    email: Yup.string().email().required(),
+    password: Yup.string().required(),
+    fullname: Yup.string().required()
+  })
+
+  const { values, errors, handleSubmit, handleChange, touched } = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+      fullname: ''
+    },
+    onSubmit: async (val) => {
+      try {
+        const response = await SignupUser(val).unwrap();
+        toast.success('Successfully User Registered')
+        nav(-1);
+        console.log(response)
+
+      } catch (err) {
+        console.log(err)
+        toast.error(err.data?.message);
+      }
+
+    },
+    validationSchema: registerSchema
+  })
 
   return (
     <div className=" p-7 mx-auto w-[30rem] max-w-screen-lg sm:w-96">
@@ -19,52 +52,53 @@ const Register = () => {
           Sign Up
         </Typography>
 
-        <form className="mt-5 mb-2 ">
+        <form onSubmit={handleSubmit} className="mt-5 mb-2 ">
           <div className="mb-1 flex flex-col gap-6">
 
-            <Typography variant="h6" color="blue-gray" className="-mb-3">
-              Your Name
-            </Typography>
+
             <Input
               size="lg"
-              placeholder="name"
-              className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-              labelProps={{
-                className: "before:content-none after:content-none",
-              }}
+              onChange={handleChange}
+              name="fullname"
+              value={values.fullname}
+              label="Full Name"
             />
 
-            <Typography variant="h6" color="blue-gray" className="-mb-3">
-              Your Email
-            </Typography>
+            {errors.fullname && touched.fullname && <h1 className="text-red-600">{errors.fullname}</h1>}
+
+
             <Input
               size="lg"
-              placeholder="name@mail.com"
-              className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-              labelProps={{
-                className: "before:content-none after:content-none",
-              }}
+              label="Email"
+              onChange={handleChange}
+              value={values.email}
+              name="email"
+
             />
-            <Typography variant="h6" color="blue-gray" className="-mb-3">
-              Password
-            </Typography>
+            {errors.email && touched.email && <h1 className="text-red-600">{errors.email}</h1>}
+
+
+
             <Input
               type="password"
               size="lg"
-              placeholder="********"
-              className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-              labelProps={{
-                className: "before:content-none after:content-none",
-              }}
+              label="Password"
+              name="password"
+              onChange={handleChange}
+              value={values.password}
+
             />
+
+            {errors.password && touched.password && <h1 className="text-red-600">{errors.password}</h1>}
           </div>
 
-          <Button className="mt-6" fullWidth>
+          <Button loading={isLoading} type="submit" className="mt-6" fullWidth>
             sign Up
           </Button>
+
           <Typography color="gray" className="mt-4 text-center font-normal">
             Already have an account?{" "}
-            <button type="button" onClick={() => nav(-1)} className="font-medium text-gray-900">Sign In</button>
+            <button type="button" onClick={() => nav(-1)} className="font-medium text-gray-900">Login</button>
 
           </Typography>
         </form>

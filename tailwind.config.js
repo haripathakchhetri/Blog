@@ -10,6 +10,9 @@ module.exports = withMT({
       animation: {
         'bounce-slow': 'bounce 2s linear infinite',
       },
+      gridTemplateColumns: {
+        'col-divide': '1fr 1.5fr'
+      }
     },
     screens: {
       '2xl': { 'max': '1536px' },
